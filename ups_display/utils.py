@@ -98,3 +98,12 @@ def disk_usage():
         float: The current disk usage fraction.
     """
     return float(subprocess.check_output("df -h | awk '$NF==\"/\"{printf \"%s\", $5}'", shell = True ).decode('utf-8').strip('%')) / 100.0
+
+def get_soc_temperature():
+    """Gets the Jetson's SoC temperature in Celsius
+    
+    Returns:
+        float: The current SoC temperature in Celsius.
+    """
+    with open("/sys/devices/virtual/thermal/thermal_zone1/temp", 'r') as f:
+        return float(f.read()) / 1000.0
